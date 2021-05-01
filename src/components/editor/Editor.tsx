@@ -1,7 +1,9 @@
 import { makeStyles, withStyles } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import debounce from "../../hepler";
+import { Note } from "../../Notes";
+import BorderColorIcon from "@material-ui/icons/BorderColor";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
@@ -35,7 +37,18 @@ const useStyles = makeStyles((theme) => ({
     boxSizing: "border-box",
   },
 }));
-const Editor = () => {
+interface EditorProps {
+  selectedNote: Note;
+  selectedNoteIndex: number;
+  notes: Note[];
+  noteUpdate: Function;
+}
+const Editor = ({
+  selectedNote,
+  selectedNoteIndex,
+  notes,
+  noteUpdate,
+}: EditorProps) => {
   const [title, settitle] = useState("");
   const [text, settext] = useState("");
   const [id, setid] = useState("");
@@ -44,11 +57,32 @@ const Editor = () => {
     settext(val);
     update();
   };
+
+  useEffect(() => {
+    settext(selectedNote.body);
+    settitle(selectedNote.title);
+    setid(selectedNote.id);
+  }, [selectedNote]);
+
   const update = debounce(() => {
     console.log("Updaring DB");
+    const updateNote: Note = {
+      title: title,
+      id: id,
+      body: text,
+    };
+    noteUpdate(selectedNote.id, updateNote);
   }, 1500);
+
   return (
     <div className={classes.editorContainer}>
+      <BorderColorIcon className={classes.editIcon}></BorderColorIcon>
+      <input
+        className={classes.titleInput}
+        placeholder="Note title..."
+        value={title ?? ""}
+        onChange={(e) => settitle(e.target.value)}
+      ></input>
       <ReactQuill value={text} onChange={updateBody}></ReactQuill>
     </div>
   );

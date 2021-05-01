@@ -3,10 +3,10 @@ import { Button, makeStyles } from "@material-ui/core";
 import { setTimeout } from "node:timers";
 import React, { useState } from "react";
 import { FormEvent } from "react";
-import { Notes } from "../../Notes";
+import { Note } from "../../Notes";
 import SidebarItem from "../sidebaritem/SidebarItem";
 interface SidebarProps {
-  notes: Notes[];
+  notes: Note[];
   selectedNoteIndex: number;
   deleteNote: Function;
   selectNote: Function;
@@ -68,7 +68,13 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
 }));
-const Sidebar = ({ notes, selectedNoteIndex }: SidebarProps) => {
+const Sidebar = ({
+  notes,
+  selectedNoteIndex,
+  selectNote,
+  deleteNote,
+  newNote,
+}: SidebarProps) => {
   const [addingNotes, setaddingNotes] = useState(false);
   const [title, settitle] = useState("");
   const classes = useStyles();
@@ -76,9 +82,14 @@ const Sidebar = ({ notes, selectedNoteIndex }: SidebarProps) => {
     settitle("");
     setaddingNotes(!addingNotes);
   };
-  const deleteNote = () => {};
-  const selectNote = () => {};
-  const updateTitle = (txt: string) => {};
+  const handleNewNoteClick = () => {
+    newNote(title);
+    settitle("");
+    setaddingNotes(false);
+  };
+  const updateTitle = (txt: string) => {
+    settitle(txt);
+  };
   return notes ? (
     <div className={classes.sidebarContainer}>
       <Button className={classes.newNoteBtn} onClick={addNewNote}>
@@ -94,6 +105,12 @@ const Sidebar = ({ notes, selectedNoteIndex }: SidebarProps) => {
               updateTitle(e.target.value);
             }}
           ></input>
+          <Button
+            className={classes.newNoteSubmitBtn}
+            onClick={handleNewNoteClick}
+          >
+            Submit Note
+          </Button>
         </div>
       ) : (
         <div></div>
@@ -106,7 +123,7 @@ const Sidebar = ({ notes, selectedNoteIndex }: SidebarProps) => {
                 deleteNote={deleteNote}
                 note={_note}
                 index={_idx}
-                selectNote={selectNote}
+                selectNote={(n: any, i: any) => selectNote(i, n)}
                 selectedNoteIndex={selectedNoteIndex}
               ></SidebarItem>
               <Divider></Divider>

@@ -3,7 +3,7 @@ import { ListItemText } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import React from "react";
 import { removeHTMLTags } from "../../hepler";
-import { Notes } from "../../Notes";
+import { Note } from "../../Notes";
 import { DeleteOutline } from "@material-ui/icons";
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 interface SidebarItemProp {
-  note: Notes;
+  note: Note;
   index: number;
   selectedNoteIndex: number;
   selectNote: Function;
