@@ -57,7 +57,10 @@ const Editor = ({
     settext(val);
     update();
   };
-
+  const updateTitle = (val: string) => {
+    settitle(val);
+    update();
+  };
   useEffect(() => {
     settext(selectedNote.body);
     settitle(selectedNote.title);
@@ -65,7 +68,7 @@ const Editor = ({
   }, [selectedNote]);
 
   const update = debounce(() => {
-    console.log("Updaring DB");
+    console.log("Updating DB");
     const updateNote: Note = {
       title: title,
       id: id,
@@ -81,7 +84,7 @@ const Editor = ({
         className={classes.titleInput}
         placeholder="Note title..."
         value={title ?? ""}
-        onChange={(e) => settitle(e.target.value)}
+        onChange={(e) => updateTitle(e.target.value)}
       ></input>
       <ReactQuill value={text} onChange={updateBody}></ReactQuill>
     </div>

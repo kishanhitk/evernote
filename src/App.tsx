@@ -3,6 +3,8 @@ import Editor from "./components/editor/Editor";
 import Sidebar from "./components/sidebar/Sidebar";
 import { firestore, timestamp } from "./firebase/config";
 import { Note } from "./Notes";
+import "./App.css";
+
 function App() {
   const [selectedNote, setselectedNote] = useState<Note | null>(null);
   const [selectedNoteIndex, setselectedNoteIndex] = useState<number | null>(0);
@@ -10,6 +12,7 @@ function App() {
   useEffect(() => {
     firestore.collection("evernote").onSnapshot((snp) => {
       const notes = snp.docs.map((doc) => {
+        console.log({ doc });
         const data: Note = {
           title: doc.data()["title"],
           id: doc.id,

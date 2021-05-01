@@ -109,7 +109,7 @@ const Sidebar = ({
             className={classes.newNoteSubmitBtn}
             onClick={handleNewNoteClick}
           >
-            Submit Note
+            Create
           </Button>
         </div>
       ) : (
