@@ -8,6 +8,9 @@ import SidebarItem from "../sidebaritem/SidebarItem";
 interface SidebarProps {
   notes: Notes[];
   selectedNoteIndex: number;
+  deleteNote: Function;
+  selectNote: Function;
+  newNote: Function;
 }
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,7 +79,7 @@ const Sidebar = ({ notes, selectedNoteIndex }: SidebarProps) => {
   const deleteNote = () => {};
   const selectNote = () => {};
   const updateTitle = (txt: string) => {};
-  return (
+  return notes ? (
     <div className={classes.sidebarContainer}>
       <Button className={classes.newNoteBtn} onClick={addNewNote}>
         {addingNotes ? "Cancel" : "Add note"}
@@ -112,6 +115,8 @@ const Sidebar = ({ notes, selectedNoteIndex }: SidebarProps) => {
         })}
       </List>
     </div>
+  ) : (
+    <div></div>
   );
 };
 

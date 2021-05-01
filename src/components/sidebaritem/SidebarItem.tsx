@@ -1,6 +1,10 @@
+import { ListItem } from "@material-ui/core";
+import { ListItemText } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import React from "react";
+import { removeHTMLTags } from "../../hepler";
 import { Notes } from "../../Notes";
+import { DeleteOutline } from "@material-ui/icons";
 const useStyles = makeStyles((theme) => ({
   listItem: {
     cursor: "pointer",
@@ -32,7 +36,31 @@ const SidebarItem = ({
   deleteNote,
 }: SidebarItemProp) => {
   const classes = useStyles();
-  return <div></div>;
+  return (
+    <div>
+      <ListItem
+        className={classes.listItem}
+        selected={selectedNoteIndex === index}
+        alignItems="flex-start"
+      >
+        <div
+          className={classes.textSection}
+          onClick={() => selectNote(note, index)}
+        >
+          <ListItemText
+            primary={note.title}
+            secondary={removeHTMLTags(note.body.substr(0, 30)) + "..."}
+          ></ListItemText>
+        </div>
+        <DeleteOutline
+          onClick={() => {
+            deleteNote(note);
+          }}
+          className={classes.deleteIcon}
+        ></DeleteOutline>
+      </ListItem>
+    </div>
+  );
 };
 
 export default SidebarItem;

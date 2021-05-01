@@ -20,9 +20,18 @@ function App() {
       setnotes(notes);
     });
   });
+  const deleteNote = () => {};
+  const newNote = () => {};
+  const selectNote = () => {};
   return (
     <div className="app-container">
-      <Sidebar selectedNoteIndex={selectedNoteIndex} notes={notes!}></Sidebar>
+      <Sidebar
+        selectNote={selectNote}
+        newNote={newNote}
+        selectedNoteIndex={selectedNoteIndex}
+        notes={notes!}
+        deleteNote={deleteNote}
+      ></Sidebar>
       <Editor></Editor>
     </div>
   );
