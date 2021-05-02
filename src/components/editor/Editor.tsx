@@ -1,5 +1,5 @@
-import { makeStyles, withStyles } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core";
+import React, { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import debounce from "../../hepler";
 import { Note } from "../../Notes";
@@ -67,15 +67,17 @@ const Editor = ({
     setid(selectedNote.id);
   }, [selectedNote]);
 
-  const update = debounce(() => {
-    console.log("Updating DB");
-    const updateNote: Note = {
-      title: title,
-      id: id,
-      body: text,
-    };
-    noteUpdate(selectedNote.id, updateNote);
-  }, 1500);
+  const update = useRef(
+    debounce(() => {
+      console.log("updating database!");
+      const updateNote: Note = {
+        title: title,
+        id: id,
+        body: text,
+      };
+      noteUpdate(selectedNote.id, updateNote);
+    }, 1500)
+  ).current;
 
   return (
     <div className={classes.editorContainer}>

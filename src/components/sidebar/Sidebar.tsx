@@ -1,8 +1,6 @@
 import { Divider, List } from "@material-ui/core";
 import { Button, makeStyles } from "@material-ui/core";
-import { setTimeout } from "node:timers";
 import React, { useState } from "react";
-import { FormEvent } from "react";
 import { Note } from "../../Notes";
 import SidebarItem from "../sidebaritem/SidebarItem";
 interface SidebarProps {
