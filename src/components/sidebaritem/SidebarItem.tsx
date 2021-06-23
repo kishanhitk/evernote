@@ -2,7 +2,7 @@ import { ListItem } from "@material-ui/core";
 import { ListItemText } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import React from "react";
-import { removeHTMLTags } from "../../hepler";
+import { removeHTMLTags } from "../../helper";
 import { Note } from "../../Notes";
 import { DeleteOutline } from "@material-ui/icons";
 const useStyles = makeStyles((theme) => ({

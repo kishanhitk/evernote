@@ -1,9 +1,9 @@
 import { makeStyles } from "@material-ui/core";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
-import debounce from "../../hepler";
-import { Note } from "../../Notes";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
+import useDebounce from "../../hooks/useDebounce";
+import { Note } from "../../Notes";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
@@ -50,34 +50,38 @@ const Editor = ({
   noteUpdate,
 }: EditorProps) => {
   const [title, settitle] = useState("");
-  const [text, settext] = useState("");
+  const [body, setBody] = useState("");
   const [id, setid] = useState("");
   const classes = useStyles();
+
+  const debouncedSave = useDebounce(
+    (title: string, body: string, id: string) => saveToDb(title, body, id),
+    1000
+  );
+
   const updateBody = (val: string) => {
-    settext(val);
-    update();
+    setBody(val);
+    debouncedSave(title, body, id);
   };
   const updateTitle = (val: string) => {
     settitle(val);
-    update();
+    debouncedSave(title, body, id);
   };
+
   useEffect(() => {
-    settext(selectedNote.body);
+    setBody(selectedNote.body);
     settitle(selectedNote.title);
     setid(selectedNote.id);
   }, [selectedNote]);
 
-  const update = useRef(
-    debounce(() => {
-      console.log("updating database!");
-      const updateNote: Note = {
-        title: title,
-        id: id,
-        body: text,
-      };
-      noteUpdate(selectedNote.id, updateNote);
-    }, 1500)
-  ).current;
+  const saveToDb = (title: string, body: string, id: string) => {
+    const updatedNote: Note = {
+      title: title,
+      id: id,
+      body: body,
+    };
+    noteUpdate(updatedNote.id, updatedNote);
+  };
 
   return (
     <div className={classes.editorContainer}>
@@ -88,7 +92,7 @@ const Editor = ({
         value={title ?? ""}
         onChange={(e) => updateTitle(e.target.value)}
       ></input>
-      <ReactQuill value={text} onChange={updateBody}></ReactQuill>
+      <ReactQuill value={body} onChange={updateBody}></ReactQuill>
     </div>
   );
 };

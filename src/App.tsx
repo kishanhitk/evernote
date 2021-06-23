@@ -22,9 +22,10 @@ function App() {
       });
       setnotes(notes);
     });
-  });
+  }, []);
   const deleteNote = async (note: Note) => {
     const noteIndex = notes?.indexOf(note);
+    console.log("Deleting Note");
     setnotes(notes?.filter((_note) => _note !== note));
     if (selectedNoteIndex === noteIndex) {
       setselectedNoteIndex(null);
@@ -68,14 +69,20 @@ function App() {
     console.log(index);
     setselectedNote(note);
     setselectedNoteIndex(index);
+    console.log("Note Set");
+    console.log(selectedNote);
+    console.log(selectedNoteIndex);
   };
   const noteUpdate = async (id: string, note: Note) => {
+    console.error("UPDATING NOTE");
     console.log({ note });
-    await firestore.collection("evernote").doc(id).update({
-      title: note.title,
-      body: note.body,
-      timestamp: timestamp(),
-    });
+    if (id !== "") {
+      await firestore.collection("evernote").doc(id).update({
+        title: note.title,
+        body: note.body,
+        timestamp: timestamp(),
+      });
+    }
   };
   return (
     <div className="app-container">
