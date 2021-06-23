@@ -2,9 +2,10 @@ import { ListItem } from "@material-ui/core";
 import { ListItemText } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import React from "react";
-import { removeHTMLTags } from "../../helper";
+// import removeHTMLTags from "../../helper";
 import { Note } from "../../Notes";
 import { DeleteOutline } from "@material-ui/icons";
+import { removeHTMLTags } from "../../helper";
 const useStyles = makeStyles((theme) => ({
   listItem: {
     cursor: "pointer",
